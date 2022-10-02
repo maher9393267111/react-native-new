@@ -3,6 +3,7 @@ import userSlience from "./userSlience";
 
 const store = configureStore({
     reducer: {
+        
         name: userSlience
     }
 });
