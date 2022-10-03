@@ -12,6 +12,8 @@ import com.facebook.soloader.SoLoader;
 import com.myfour.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+// camera
+import org.reactnative.camera.RNCameraPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 

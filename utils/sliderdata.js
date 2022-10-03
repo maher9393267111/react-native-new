@@ -20,3 +20,7 @@ export const imagedata= [
 
 
 ]
+
+
+
+export const imagerandom ='https://images.unsplash.com/photo-1491933382434-500287f9b54b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464&q=80'
