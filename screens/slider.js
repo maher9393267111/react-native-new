@@ -1,218 +1,99 @@
-import React, { useState, useEffect, useRef } from 'react';
-// Import required components
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  Platform,
-  PermissionsAndroid,
-  Pressable,
-  SafeAreaView
-} from 'react-native';
-import {
-  launchCamera,
-  launchImageLibrary
-} from 'react-native-image-picker';
-import RBSheet from "react-native-raw-bottom-sheet";
-import { imagerandom } from '../utils/sliderdata'
+// import { View, Text } from 'react-native'
+// import React from 'react'
+// import Icon from "react-native-vector-icons/Ionicons";
+// // import YoutubePlayer from "react-native-youtube-iframe";
+// import {Box} from 'native-base'
+// export default function slider() {
 
-const PickImage = () => {
-  const refRBSheet = useRef();
-  const [filePath, setFilePath] = useState(null);
-  console.log("File Path init: ", filePath)
+//   return (
+//     <View>
+//       <Text className=" text-center mt-4 font-bold text-2xl text-blue-700 border-b-2 pb-2">HomePage</Text>
 
-  function renderProfile() {
-    if (filePath != null)
-      return (<Image
-        style={styles.rightContainer}
-        source={{ uri: filePath.uri }} />)
+//       <Box className=' absolute top-1 left-2 '>
+//       <Icon
+//       className=' absolute top-2 left-2'
+//       name="close-outline" size={28} color="#1" />
+//       </Box>
+//     </View>
+//   )
+// }
 
-    else return (<Image
-      style={styles.rightContainer}
-      source={{uri: imagerandom }} />);
-  }
+import React, {useState} from 'react';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 
-  const requestCameraPermission = async () => {
-    if (Platform.OS === 'android') {
-      try {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.CAMERA,
-          {
-            title: 'Camera Permission',
-            message: 'App needs camera permission',
-          },
-        );
-        // If CAMERA Permission is granted
-        return granted === PermissionsAndroid.RESULTS.GRANTED;
-      } catch (err) {
-        console.warn(err);
-        return false;
-      }
-    } else return true;
+const listItem = [
+  {id: 1, title: 'Yoga'},
+  {id: 2, title: 'Gym'},
+  {id: 3, title: 'Running'},
+  {id: 4, title: 'Yoga'},
+  {id: 5, title: 'Fight'},
+  {id: 6, title: 'Body'},
+  {id: 7, title: 'Rest'},
+];
+
+export default function CircularSlide() {
+  const [index, setIndex] = useState(2);
+
+  const userActive = i => {
+    console.log('i is clicked now', i);
+    setIndex(i);
   };
-
-  const requestExternalWritePermission = async () => {
-    if (Platform.OS === 'android') {
-      try {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-          {
-            title: 'External Storage Write Permission',
-            message: 'App needs write permission',
-          },
-        );
-        // If WRITE_EXTERNAL_STORAGE Permission is granted
-        return granted === PermissionsAndroid.RESULTS.GRANTED;
-      } catch (err) {
-        console.warn(err);
-        alert('Write permission err', err);
-      }
-      return false;
-    } else return true;
-  };
-
-  const captureImage = async (type) => {
-    let options = {
-      mediaType: type,
-      maxWidth: 300,
-      maxHeight: 550,
-      quality: 1,
-      videoQuality: 'low',
-      durationLimit: 30, //Video max duration in seconds
-      saveToPhotos: true,
-    };
-    let isCameraPermitted = await requestCameraPermission();
-    let isStoragePermitted = await requestExternalWritePermission();
-    if (isCameraPermitted && isStoragePermitted) {
-      launchCamera(options, (response) => {
-        console.log('Response = ', response);
-
-        if (response.didCancel) {
-          alert('User cancelled camera picker');
-          return;
-        } else if (response.errorCode == 'camera_unavailable') {
-          alert('Camera not available on device');
-          return;
-        } else if (response.errorCode == 'permission') {
-          alert('Permission not satisfied');
-          return;
-        } else if (response.errorCode == 'others') {
-          alert(response.errorMessage);
-          return;
-        }
-        setFilePath(response.assets[0]);
-      });
-    }
-  };
-
-  const chooseFile = (type) => {
-    let options = {
-      mediaType: type,
-      maxWidth: 300,
-      maxHeight: 550,
-      quality: 1,
-    };
-    launchImageLibrary(options, (response) => {
-      console.log('Response = ', response);
-      console.log("Content here:", JSON.stringify(response.assets[0].uri));
-
-      if (response.didCancel) {
-        alert('User cancelled camera picker');
-        return;
-      } else if (response.errorCode == 'camera_unavailable') {
-        alert('Camera not available on device');
-        return;
-      } else if (response.errorCode == 'permission') {
-        alert('Permission not satisfied');
-        return;
-      } else if (response.errorCode == 'others') {
-        alert(response.errorMessage);
-        return;
-      }
-      // console.log('base64 -> ', response.assets[0].base64);
-      // console.log('uri -> ', response.assets[0].uri);
-      // console.log('width -> ', response.assets[0].width);
-      // console.log('height -> ', response.assets[0].height);
-      // console.log('fileSize -> ', response.assets[0].fileSize);
-      // console.log('type -> ', response.assets[0].type);
-      // console.log('fileName -> ', response.assets[0].fileName);
-      setFilePath(response.assets[0]);
-      imageURI = response.assets[0].uri
-      // console.log('AHI', filePath)
-    });
-  };
-
-
+  console.log(index);
 
   return (
-    <View>
-
-    
-      <Pressable
-        onPress={() => refRBSheet.current.open()}
-      >
-
-        {renderProfile()}
-
-      </Pressable>
-      <RBSheet
-        ref={refRBSheet}
-        closeOnDragDown={true}
-        closeOnPressMask={false}
-        customStyles={{
-          wrapper: {
-            backgroundColor: "transparent"
-          },
-          draggableIcon: {
-            backgroundColor: "#000"
-          }
-        }}>
-
-        <View style={{ flexDirection: 'column', justifyContent: 'center' }}>
+    <View style={styles.userMain}>
+      {listItem.map((val, i) => {
+        return (
           <TouchableOpacity
-            activeOpacity={0.5}
-            style={styles.buttonStyle}
-            onPress={() => chooseFile('photo')}>
-            <Text style={styles.textStyle}>Choose Image</Text>
+            style={styles.user}
+            key={val.id}
+            onPress={() => userActive(i)}>
+            <View
+              className={`${
+                i === index ? 'bg-blue-800 w-[50px] h-[50px] ' : ' w-[50px] h-[50px] bg-gray-600'
+              }p-2 rounded-lg mb-4`}></View>
+            <Text className={`${i === index ? 'bg-blue-800' : ' bg-gray-400'}`}>
+              {val.title}
+            </Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.5}
-            style={styles.buttonStyle}
-            onPress={() => captureImage('photo')}>
-            <Text style={styles.textStyle}>Capture Image</Text>
-          </TouchableOpacity>
-        </View>
-
-      </RBSheet>
+        );
+      })}
     </View>
   );
-};
-
-export default PickImage;
+}
 
 const styles = StyleSheet.create({
-  textStyle: {
-    padding: 10,
-    color: 'black',
-    textAlign: 'center',
+  userMain: {
+    display: 'flex',
+    flexDirection: 'row',
+    overflowX: 'auto',
+    width: '100%',
   },
-  buttonStyle: {
+  user: {
+    padding: 8,
     alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 5,
-    marginVertical: 10,
-    width: 150,
+    width: 95,
   },
-  rightContainer: {
-    height: 60,
-    width: 60,
-    marginEnd: 10,
-    resizeMode: 'contain',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    // backgroundColor: 'red',
-    borderRadius: 50 / 2
-},
+  user_active: {
+    height: 5,
+    width: 5,
+    padding: 25,
+    //  borderRadius: '50%',
+    //  backgroundColor: '#D3DEDC',
+  },
+  icon_text: {
+    margin: 2,
+    color: '#D3DEDC',
+  },
+  user_inactive: {
+    height: 5,
+    width: 5,
+    padding: 25,
+    // borderRadius: '50%',
+    //   backgroundColor: '#212b46',
+  },
+  icon_intext: {
+    margin: 2,
+    color: '#212b46',
+  },
 });
