@@ -34,7 +34,7 @@ export default function slider() {
 
   return (
     <View>
-      <Text>slider1</Text>
+      <Text>slider</Text>
 
   <DropDownPicker
            //  style={styles.dropDownPicker}
