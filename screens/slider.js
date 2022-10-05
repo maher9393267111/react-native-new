@@ -1,99 +1,76 @@
-// import { View, Text } from 'react-native'
-// import React from 'react'
-// import Icon from "react-native-vector-icons/Ionicons";
-// // import YoutubePlayer from "react-native-youtube-iframe";
-// import {Box} from 'native-base'
-// export default function slider() {
+import { View, Text ,StyleSheet } from 'react-native'
+import React ,{useState,useEffect} from 'react'
+import Icon from "react-native-vector-icons/Ionicons";
+// import YoutubePlayer from "react-native-youtube-iframe";
+import {Box} from 'native-base'
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+// import DropDownPicker from "react-native-dropdown-picker";
+import Colors from '../utils/sliderdata'
 
-//   return (
-//     <View>
-//       <Text className=" text-center mt-4 font-bold text-2xl text-blue-700 border-b-2 pb-2">HomePage</Text>
+export default function slider() {
 
-//       <Box className=' absolute top-1 left-2 '>
-//       <Icon
-//       className=' absolute top-2 left-2'
-//       name="close-outline" size={28} color="#1" />
-//       </Box>
-//     </View>
-//   )
-// }
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
 
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+  const [items, setItems] = useState([
+    { label: "Mammals", value: "Mammals" },
+    { label: "Birds", value: "Birds" },
+    { label: "Reptiles", value: "Reptiles" },
+    { label: "Amphibians", value: "Amphibians" },
+    { label: "Fish", value: "Fish" },
+    { label: "Insects", value: "Insects" },
+    { label: "Plants", value: "Plants" },
+    { label: "dinosaurs", value: "dinosaurs" },
+  ]);
 
-const listItem = [
-  {id: 1, title: 'Yoga'},
-  {id: 2, title: 'Gym'},
-  {id: 3, title: 'Running'},
-  {id: 4, title: 'Yoga'},
-  {id: 5, title: 'Fight'},
-  {id: 6, title: 'Body'},
-  {id: 7, title: 'Rest'},
-];
 
-export default function CircularSlide() {
-  const [index, setIndex] = useState(2);
-
-  const userActive = i => {
-    console.log('i is clicked now', i);
-    setIndex(i);
-  };
-  console.log(index);
 
   return (
-    <View style={styles.userMain}>
-      {listItem.map((val, i) => {
-        return (
-          <TouchableOpacity
-            style={styles.user}
-            key={val.id}
-            onPress={() => userActive(i)}>
-            <View
-              className={`${
-                i === index ? 'bg-blue-800 w-[50px] h-[50px] ' : ' w-[50px] h-[50px] bg-gray-600'
-              }p-2 rounded-lg mb-4`}></View>
-            <Text className={`${i === index ? 'bg-blue-800' : ' bg-gray-400'}`}>
-              {val.title}
-            </Text>
-          </TouchableOpacity>
-        );
-      })}
+    <View>
+      <Text className=" text-center mt-4 font-bold text-2xl text-blue-700 border-b-2 pb-2">HomePage</Text>
+
+      <Box className=' absolute top-1 left-2 '>
+      <Icon
+      className=' absolute top-2 left-2'
+      name="close-outline" size={28} color="#1" />
+
+
+<Text >Category</Text>
+          {/* <DropDownPicker
+            style={styles.dropDownPicker}
+            placeholderStyle={{
+              color: Colors.primary900,
+            }}
+            listParentLabelStyle={{
+              color: Colors.primary900,
+            }}
+            textStyle={{
+              color: Colors.primary900,
+            }}
+            open={open}
+            value={value}
+            items={items}
+            setOpen={setOpen}
+            setValue={setValue}
+            setItems={setItems}
+            maxHeight={500}
+            placeholder="Select a category"
+          /> */}
+
+
+      </Box>
     </View>
-  );
+  )
 }
 
+
+
+
 const styles = StyleSheet.create({
-  userMain: {
-    display: 'flex',
-    flexDirection: 'row',
-    overflowX: 'auto',
-    width: '100%',
+  dropDownPicker: {
+    borderWidth: 0,
+    backgroundColor: Colors.accent100,
+    color: Colors.primary900,
   },
-  user: {
-    padding: 8,
-    alignItems: 'center',
-    width: 95,
-  },
-  user_active: {
-    height: 5,
-    width: 5,
-    padding: 25,
-    //  borderRadius: '50%',
-    //  backgroundColor: '#D3DEDC',
-  },
-  icon_text: {
-    margin: 2,
-    color: '#D3DEDC',
-  },
-  user_inactive: {
-    height: 5,
-    width: 5,
-    padding: 25,
-    // borderRadius: '50%',
-    //   backgroundColor: '#212b46',
-  },
-  icon_intext: {
-    margin: 2,
-    color: '#212b46',
-  },
-});
+})
+
